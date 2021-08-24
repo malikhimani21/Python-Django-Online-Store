@@ -10,6 +10,9 @@ class TshirtProperty(models.Model):
 
     # User Meta class and abstract which means dont create table fot
     # TshirtProperty class
+    
+    def __str__(self):
+        return self.title
     class Meta:
         abstract = True
 
@@ -49,3 +52,21 @@ class Tshirt(models.Model):
     neck_type = models.ForeignKey(NeckType, on_delete=models.CASCADE)
     ideal_for = models.ForeignKey(IdealFor, on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
+
+    # def __str__(self):
+    #     return self.ideal_for.__str__() + " -- " + self.name + " -- " + self.discount.__str__()
+
+class SizeVariant(models.Model):
+    SIZES = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Extra Extra Large'),
+    )
+    price = models.IntegerField(null=False)
+    tshirt = models.ForeignKey(Tshirt, on_delete=models.CASCADE)
+    size = models.CharField(choices=SIZES, max_length=5)
